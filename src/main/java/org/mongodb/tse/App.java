@@ -127,6 +127,7 @@ public class App {
 			final int i = k;
 			pool.execute(new Runnable() {
 				public void run() {
+				 	System.out.println("Thread " + i + ": Commencing bulk update operations");
 					int count = 0;
 					for (;;) {
 						c.bulkWrite(
