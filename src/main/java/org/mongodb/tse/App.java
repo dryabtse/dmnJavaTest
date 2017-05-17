@@ -25,16 +25,6 @@ public class App {
 		System.exit(0);
 	}
 
-	public static MongoCollection getCollection(CommandLine cline, MongoDatabase database, String collectionParameter) {
-		MongoCollection collection = null;
-		if (cline.hasOption("readPreference")) {
-			String p = cline.getOptionValue("readPreference");
-			collection = database.getCollection(collectionParameter).withReadPreference(ReadPreference.valueOf(p));
-		}
-		else collection = database.getCollection(collectionParameter).withReadPreference(ReadPreference.secondaryPreferred());
-		return collection;
-	}
-
 	public static void main(final String[] args) throws InterruptedException {
 
 		Option help = Option.builder("help")
@@ -43,38 +33,32 @@ public class App {
 				.build();
 		Option ouri = Option.builder("uri")
 				.argName("uri")
-				.desc("mongodb uri, required")
+				.desc("mongodb uri")
 				.hasArg().
 				type(String.class)
 				.build();
 		Option odatabase = Option.builder("database")
 				.argName("database")
-				.desc("mongodb database, default productpersistdb")
+				.desc("mongodb database, default java")
 				.hasArg()
 				.type(String.class).build();
 		Option ocollection = Option.builder("collection")
 				.argName("collection")
-				.desc("mongodb collection, default product")
+				.desc("mongodb collection, default col")
 				.hasArg()
 				.type(String.class)
 				.build();
 		Option osleep = Option.builder("sleep")
 				.argName("sleep")
-				.desc("sleep between runs, default 10 seconds")
+				.desc("sleep between runs, default 1 sec")
 				.hasArg()
 				.type(Integer.class)
 				.build();
 		Option othreads = Option.builder("threads")
 				.argName("threads")
-				.desc("number of threads to run, default 5")
+				.desc("number of threads to run, default 10")
 				.hasArg()
 				.type(Integer.class)
-				.build();
-		Option readPreference = Option.builder("readPreference")
-				.argName("readPreference")
-				.desc("read preference, default is secondaryPreferred")
-				.hasArg()
-				.type(String.class)
 				.build();
 
 		Options options = new Options();
@@ -84,7 +68,6 @@ public class App {
 		options.addOption(ocollection);
 		options.addOption(osleep);
 		options.addOption(othreads);
-		options.addOption(readPreference);
 
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cline = null;
