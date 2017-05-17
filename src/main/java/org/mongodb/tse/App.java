@@ -1,6 +1,5 @@
 
-://support.mongodb.com/case/00436617
-ckage org.mongodb.tse;
+package org.mongodb.tse;
 
 import com.mongodb.*;
 import com.mongodb.client.*;
